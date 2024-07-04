@@ -5,7 +5,7 @@ import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/ge
 //     HarmCategory,
 //     HarmBlockThreshold,
 //   } = require("@google/generative-ai");
-export const dynamic="force-dynamic";
+export const dynamic = "force-dynamic";
 const MODEL_NAME = "gemini-1.0-pro";
 const API_KEY = process.env.GOOGLE_API_KEY as string;
 
@@ -46,21 +46,24 @@ const chat = model.startChat({
 export async function GET(req: NextRequest) {
     try {
         const { searchParams } = new URL(req.url);
-        const query= searchParams.get('query');
-        if(!query){
+        const query = searchParams.get('query');
+        if (!query) {
             return NextResponse.json({
-                success:false,
-                message:"please send the disease information"
+                success: false,
+                message: "please send the disease information"
             })
         }
-        const result = await chat.sendMessage(query);
+        const result = await chat.sendMessage(  query);
         const response = result.response;
-        console.log(response.text());
+        const originalresponse=response.text();
+        const newdata=originalresponse.replace(/\*/g, "\n")
+        console.log(newdata)
         return NextResponse.json({
-            success:true,
-            data:response.text()
+            success: true,
+            data: originalresponse
         })
     } catch (error: any) {
+        console.log(error)
         return NextResponse.json({
             success: false,
             message: "unable to process your request"

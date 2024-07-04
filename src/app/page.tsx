@@ -1,77 +1,40 @@
 "use client";
-import {
-  Button,
-  FormControl,
-  FormHelperText,
-  Input,
-  InputLabel,
-  Paper,
-  Divider,
-} from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import { useState } from "react";
-import { GetResponse } from "@/services/search";
-export default function Home() {
-  const [query, setQuery] = useState("");
-  const [res,setRes]=useState("result")
-  async function getResult() {
-    const result = await GetResponse(query);
-    if (result){
-      setRes(result.data)
-    }
-  }
+
+import { AuroraBackground } from "@/utils/ui/aurora-background";
+import { Button } from "@mui/material";
+import { motion } from "framer-motion";
+import React from "react";
+import { useRouter } from "next/navigation";
+// import { AuroraBackground } from "@/utils/ui/aurora-background";
+
+export default function AuroraBackgroundDemo() {
+  const router=useRouter()
   return (
     <>
-      <section className="w-full p-2 m-2 ">
-        <div className="grid grid-cols-12 grid-rows-6 gap-4">
-          <div className="col-span-8 row-span-4 col-start-5 row-start-1  rounded-md">
-            <Paper
-              elevation={3}
-              className="bg-white w-full h-full p-4 border border-blue-400"
-            >
-              <p className="text-center p-1">result</p>
-              <Divider variant="middle" flexItem />
-              <div className="p-1 overflow-y-auto">
-               {res}
-              </div>
-            </Paper>
-          </div>
-          <div className="col-span-8 row-span-2 col-start-5 row-start-5 border-2 border-blue-400 rounded-md">
-            <div className="flex flex-row justify-center items-center  gap-x-5 p-2">
-              <FormControl fullWidth className="m-3">
-                <InputLabel htmlFor="my-input">Query</InputLabel>
-                <Input id="my-input" aria-describedby="my-helper-text" onChange={e => setQuery(e.target.value)} />
-                <FormHelperText id="my-helper-text">
-                  {/* eslint-disable-next-line react/no-unescaped-entities */}
-                  enter the disease and what you want to know
-                </FormHelperText>
-              </FormControl>
-              <Divider variant="middle" flexItem orientation="vertical" />
-              <Button
-                variant="outlined"
-                size="small"
-                color="inherit"
-                className="p-2 "
-                onClick={getResult}
-              >
-                <SendIcon />
-              </Button>
+      <div className="min-h-screen flex justify-center items-center bg-black">
+        <AuroraBackground>
+          <motion.div
+            initial={{ opacity: 0.0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: 0.3,
+              duration: 0.8,
+              ease: "easeInOut",
+            }}
+            className="relative flex flex-col gap-4 items-center justify-center px-4"
+          >
+            <div className="text-3xl md:text-7xl font-bold font-sans dark:text-white text-center tracking-widest">
+              Health Chatbot
             </div>
-          </div>
-          <div className="col-span-4 row-span-6 col-start-1 row-start-1 aspect-square border-8 border-blue-400 rounded-lg">
-            <div className=" flex flex-col justify-center items-center text-center m-1">
-              <p className="tracking-wider text-2xl p-2 font-mono text-bold">
-                Recent Chats
-              </p>
-              <Divider className="w-full border-2 border-black">CENTER</Divider>
-              <div>here we have to show the chats in the recent history</div>
-              <div>
-                {query}
-              </div>
+            <div className="font-extralight text-base md:text-4xl dark:text-neutral-200 py-4 tracking-widest">
+            Your health is the priority
             </div>
-          </div>
-        </div>
-      </section>
+            <Button onClick={()=>{router.push("/c")}} className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2">
+              Get Started
+            </Button>
+          </motion.div>
+        </AuroraBackground>
+      </div>
     </>
   );
 }

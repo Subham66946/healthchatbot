@@ -2,13 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  color: inherit;
-  background: linear-gradient(to bottom, transparent, #f4f4f4) #fbf6ff;
-}
+
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
+
+
+::-webkit-scrollbar{
+  display: none !important;
+}
+
